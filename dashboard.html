@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElvaRiq Attendance Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        a {
+            color: #2563eb;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 230px;
+            height: 100vh;
+            background: #111827;
+            color: #fff;
+            padding: 24px 18px;
+            box-sizing: border-box;
+        }
+
+        .brand {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 28px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #d1d5db;
+            text-decoration: none;
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .sidebar a.active,
+        .sidebar a:hover {
+            background: #2563eb;
+            color: #fff;
+        }
+
+        .content {
+            margin-left: 230px;
+            padding: 40px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            max-width: 900px;
+            margin-top: 24px;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 18px;
+        }
+
+        .card h2 {
+            font-size: 16px;
+            margin: 0 0 10px;
+            color: #444;
+        }
+
+        .number {
+            font-size: 34px;
+            font-weight: bold;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 14px;
+            border-radius: 6px;
+            background: #2563eb;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        table {
+            width: 100%;
+            max-width: 720px;
+            border-collapse: collapse;
+            background: #fff;
+            margin-top: 24px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #e5e7eb;
+        }
+
+        @media (max-width: 760px) {
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+            }
+
+            .content {
+                margin-left: 0;
+                padding: 24px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="brand">ElvaRiq</div>
+        <a class="active" href="/">Dashboard</a>
+        <a href="/attendance">Mark Attendance</a>
+        <a href="/employees">Employee Details</a>
+        <a href="/records">Attendance Records</a>
+        <a href="/logout">Logout</a>
+    </aside>
+
+    <main class="content">
+        <div class="page-header">
+            <h1>ElvaRiq Employee Attendance Tracker</h1>
+            <p>Date: {{ today }}</p>
+        </div>
+
+        <div class="actions">
+            <a class="button" href="/attendance">Mark Attendance</a>
+            <a class="button" href="/employees">Employee Details</a>
+            <a class="button" href="/records">Attendance Records</a>
+        </div>
+
+        <div class="cards">
+            <div class="card">
+                <h2>Total Employees</h2>
+                <div class="number">{{ employee_count }}</div>
+            </div>
+
+            <div class="card">
+                <h2>Present Today</h2>
+                <div class="number">{{ present_count }}</div>
+            </div>
+
+            <div class="card">
+                <h2>Absent Today</h2>
+                <div class="number">{{ absent_count }}</div>
+            </div>
+
+            <div class="card">
+                <h2>Not Marked</h2>
+                <div class="number">{{ not_marked_count }}</div>
+            </div>
+        </div>
+
+        {% if saved_attendance %}
+            <h2>Today Attendance</h2>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for employee, status in saved_attendance %}
+                            <tr>
+                                <td>{{ employee }}</td>
+                                <td>{{ status }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>No attendance marked today.</p>
+        {% endif %}
+    </main>
+</body>
+</html>

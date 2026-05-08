@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ElvaRiq Login</title>
+    <title>Reset Employee Login</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
         .login-page {
@@ -16,7 +16,7 @@
 
         .login-box {
             width: 100%;
-            max-width: 420px;
+            max-width: 460px;
         }
 
         .login-box h1 {
@@ -27,31 +27,50 @@
             color: #dc2626;
             margin-bottom: 14px;
         }
+
+        .message {
+            color: #15803d;
+            margin-bottom: 14px;
+        }
     </style>
 </head>
 <body>
     <main class="login-page">
         <form class="login-box" method="POST">
-            <h1>ElvaRiq Login</h1>
+            <h1>Reset Employee Login</h1>
 
             {% if error %}
                 <p class="error">{{ error }}</p>
             {% endif %}
 
+            {% if message %}
+                <p class="message">{{ message }}</p>
+            {% endif %}
+
             <label>
-                Username
+                Employee Name
+                <input type="text" name="name" required>
+            </label>
+
+            <label>
+                Employee Email
+                <input type="email" name="email" required>
+            </label>
+
+            <label>
+                New Username
                 <input type="text" name="username" required>
             </label>
 
             <label>
-                Password
+                New Password
                 <input type="password" name="password" required>
             </label>
 
-            <button type="submit">Login</button>
+            <button type="submit">Update Login Details</button>
 
             <p>
-                <a href="/forgot-login">Forgot username or password?</a>
+                <a href="/login">Back to login</a>
             </p>
         </form>
     </main>
