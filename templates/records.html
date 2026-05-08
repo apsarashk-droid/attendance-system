@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Records</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        a {
+            color: #2563eb;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 230px;
+            height: 100vh;
+            background: #111827;
+            color: #fff;
+            padding: 24px 18px;
+            box-sizing: border-box;
+        }
+
+        .brand {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 28px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #d1d5db;
+            text-decoration: none;
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .sidebar a.active,
+        .sidebar a:hover {
+            background: #2563eb;
+            color: #fff;
+        }
+
+        .content {
+            margin-left: 230px;
+            padding: 40px;
+        }
+
+        table {
+            width: 100%;
+            max-width: 720px;
+            border-collapse: collapse;
+            background: #fff;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #e5e7eb;
+        }
+
+        @media (max-width: 760px) {
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+            }
+
+            .content {
+                margin-left: 0;
+                padding: 24px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="brand">ElvaRiq</div>
+        <a href="/">Dashboard</a>
+        <a href="/attendance">Mark Attendance</a>
+        <a href="/employees">Employee Details</a>
+        <a class="active" href="/records">Attendance Records</a>
+        <a href="/logout">Logout</a>
+    </aside>
+
+    <main class="content">
+        <div class="page-header">
+            <h1>Attendance Records</h1>
+            <p>Saved attendance entries from the database.</p>
+        </div>
+
+        {% if saved_records %}
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Employee</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for attendance_date, employee, status in saved_records %}
+                            <tr>
+                                <td>{{ attendance_date }}</td>
+                                <td>{{ employee }}</td>
+                                <td>{{ status }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>No attendance records saved yet.</p>
+        {% endif %}
+    </main>
+</body>
+</html>
